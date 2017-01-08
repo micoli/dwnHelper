@@ -1,0 +1,11 @@
+vendor/
+extexample/
+.settings
+.project
+.buildpath
+.externalToolBuilders
+var/storage/logs/
+var/
+sync.sh
+tags
+config/

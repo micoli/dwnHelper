@@ -1,0 +1,8 @@
+<li ng-repeat="download in downloads|orderBy:'-status'" class="">
+	Name: <b>{{download.name}}</b><br/>
+	Status : <b>{{download.status}}</b><br/>
+	Size : {{download.done| byteFmt: 2}}/{{download.size| byteFmt: 2}}<br/>
+	<span ng-show="download.speed">
+		Speed : {{download.speed| byteFmt: 2}} <i>({{download.eta}})</i>
+	</span>
+</li>

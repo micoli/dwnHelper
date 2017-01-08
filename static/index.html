@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="dwnApp">
+	<head>
+		<!-- https://bootswatch.com/yeti/ -->
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>[dwn]</title>
+
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/loading-bar.min.css" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		<style>
+			.page-header {
+				margin: 52px 0 11px;
+			}
+			img.dwnThumb {
+				border: 1px solid #9f9f9f;
+				border-radius: 5px;
+				border: 0 none;
+				margin: auto;
+				height: 180px;
+				min-height: 180px;
+			}
+
+			li.portfolio-item {
+				list-style: outside none none;
+			}
+
+			ul.torrentVersionLink a.downloaded{
+				text-decoration:line-through;
+			}
+			ul.torrentVersionLink{
+				width:240px;
+				display:block;
+				list-style:none;
+			}
+			.downloaded img{
+				border:1px solid #9F9F9F;
+				opacity : 0.4;
+				/*
+				-webkit-clip-path: polygon(52% 50%, 78% 11%, 86% 19%, 51% 71%, 28% 30%, 39% 24%);
+				clip-path: polygon(52% 50%, 78% 11%, 86% 19%, 51% 71%, 28% 30%, 39% 24%);
+				*/
+			}
+			a.downloaded:active img{
+				opacity : 1;
+				/*
+				-webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 0);
+				clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 0);
+				*/
+			}
+			a.downloaded:hover img{
+				opacity : 1;
+				/*
+				-webkit-clip-path: polygon(95% 5%, 95% 95%, 5% 95%, 5% 5%);
+				clip-path: polygon(95% 5%, 95% 95%, 5% 95%, 5% 5%);
+				*/
+			}
+			ul.torrentVersionLink li{
+				border: 1px solid #a1a1a1;
+				border-radius: 4px;
+				float: left;
+				font-size: 0.8em;
+				text-align: center;
+				width: 100px;
+			}
+			ul.listTorrent p{
+				clear:both;
+			}
+			ul.listTorrent p {
+			text-align:justify
+			}
+			.txtSAEP {
+				color: brown;
+			}
+			a.dwnThumbHolder {
+				width:145px;
+				height:200px;
+			}
+			.dwnThumbHolder .txtSAEP {
+				top: 145px;
+				left:110px;
+				color: brown;
+				font-size: 23px;
+				position: absolute;
+				text-shadow: 2px 2px 0 #fff, -2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff;
+				width: 145px;
+			}
+			.txtLanguage {
+				color: blue;
+				font-size: 10px;
+			}
+			.txtQuality {
+				color: orange;
+				font-size: 10px;
+			}
+			.container-fluid.seed{
+				background-color:orange;
+			}
+			.ul.listTorrent > li {
+			}
+			.card-title{
+				text-align: center;
+			}
+			.cardDetail{
+				display:inline-block;
+			}
+
+		</style>
+	</head>
+	<body ng-controller="torrentCtrl">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid" ng-class="{seed:radioModel.dst=='seed'}">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a ui-sref="home"href="#">Torrents</a></li>
+						<li><a ui-sref="torrents.list({provider:'t9'		,action:'list',type:'series',page:1,query:''})"href="#">Serie T9</a></li>
+						<li><a ui-sref="torrents.list({provider:'t9'		,action:'list',type:'movies',page:1,query:''})"href="#">Movies T9</a></li>
+						<li><a ui-sref="torrents.list({provider:'t411'		,action:'list',type:'series',page:1,query:''})"href="#">Series T411</a></li>
+						<li><a ui-sref="torrents.list({provider:'t411'		,action:'list',type:'movies',page:1,query:''})"href="#">Movies T411</a></li>
+						<!--<li><a ui-sref="torrents.list({provider:'cpasbien'	,action:'list',type:'series',page:1,query:''})"href="#">Serie CPB</a></li> -->
+						<!--<li><a ui-sref="torrents.list({provider:'cpasbien'	,action:'list',type:'movies',page:1,query:''})"href="#">Movies CPB</a></li> -->
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<label><input name="dst" ng-model="radioModel.dst" type="radio" value="local"> local </label>
+						<label><input name="dst" ng-model="radioModel.dst" type="radio" value="seed"> seed </label>
+						<label><input ng-model="checkboxModel.french" ng-click="checkboxModel.french=(checkboxModel.french==1?0:1)" ng-class="{active:checkboxModel.french}" type="checkbox"> French </label>
+						<label><input ng-model="checkboxModel.new" ng-click="checkboxModel.new=(checkboxModel.new==1?0:1)" ng-class="{active:checkboxModel.new}" type="checkbox"> New </label>
+					</form>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div ui-view></div>
+		</div>
+
+		<script src="js/lib/angular.js"></script>
+		<script src="js/lib/angular-ui-router.js"></script>
+		<script src="js/lib/imagesloaded.pkgd.min"></script>
+		<script src="js/lib/masonry.pkgd.min.js"></script>
+		<script src="js/lib/angular-masonry-directive.js"></script>
+		<script src="js/lib/jquery.js"></script>
+		<script src="js/lib/angular-filter.min.js"></script>
+		<script src="js/lib/bootstrap.min.js"></script>
+		<script src="js/lib/dirPagination.js"></script>
+		<script src="js/lib/loading-bar.min.js"></script>
+
+		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script>
+	</body>
+</html>

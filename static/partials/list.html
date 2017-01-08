@@ -1,0 +1,61 @@
+	<div class="row page-header">
+		<div class="col-lg-12">
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon" id="sizing-addon1">
+					{{provider}} - <small>{{action}}/{{type}}</small>
+				</span>
+				<input type="text" class="form-control" ng-model="query" placeholder="search" on-key-enter-up="search()">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+				</span>
+			</div>
+			<br>
+		</div>
+	</div>
+	<div >
+		<div ng-repeat="card in torrents"
+			class="portfolio-item col-xs-12 col-md-4 col-lg-3"
+			ng-class="{downloaded:card.downloaded}"
+			ng-hide="!((!mother.checkboxModel.new || !card.downloaded) && (!mother.checkboxModel.french || card.french)) "
+			>
+			<a ng-click="mother.showDetail(card)" class="dwnThumbHolder">
+				<img class="dwnThumb img-responsive card-img-top" alt="" ng-src="{{mother.rootUrl}}{{card.img}}">
+				<span class="txtSAEP" ng-if="card.version[0].tag.saep">{{card.version[0].tag.saep.S}}x{{card.version[0].tag.saep.E}}</span>
+			</a>
+			<div class="card-block">
+				<h4 class="card-title">{{card.title}}</h4>
+				<p class="card-text">
+					<ul class="torrentVersionLink">
+						<li ng-repeat="version in card.version">
+							<a ng-class="{downloaded:version.downloaded}" ng-click="mother.launchTorrent(card,version)">
+								<span class="txtQuality">{{version.tag.quality.join(',')}}</span><br/>
+								<span class="txtLanguage">{{version.tag.language.join(',')}}</span><br/>
+								{{version.weight}}
+							</a>
+						</li>
+						<li ng-show="!card.downloaded">
+							<a ng-click="mother.markTorrent(card,card.version[0])">
+								<br>Check OK<br>&nbsp;
+							</a>
+						</li>
+					</ul>
+				</p>
+				<div ng-show="card.showdetail">
+					<span ng-show="card.detail.state=='loading'">Loading</span>
+					<div class="cardDetail" ng-show="card.showdetail" ng-bind-html="card.detail.desc"></div>
+				</div>
+				<div class="clearfix visible-xs-block" ></div>
+				<div class="clearfix visible-md-block" ng-if="$index % 3 == 0"></div>
+				<div class="clearfix visible-lg-block" ng-if="$index % 4 == 0"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row text-center">
+		<div class="col-lg-12">
+			<ul class="pagination">
+				<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="js/lib/dirPagination.tpl.html"></dir-pagination-controls>
+			</ul><br/>
+			<button type="button" class="btn btn-default" ng-click="getResultsPage(null,true)">refresh</button>
+		</div>
+	</div>
