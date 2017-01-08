@@ -8,4 +8,4 @@ var/storage/logs/
 var/
 sync.sh
 tags
-config/
+/config

@@ -1,0 +1,4 @@
+slashApiTorrents:
+  prefix: /api/torrents
+  resource: '@App\Controllers\Torrents'
+  type: annotation
