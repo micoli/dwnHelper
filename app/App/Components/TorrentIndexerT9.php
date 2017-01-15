@@ -5,7 +5,7 @@ use Sunra\PhpSimple\HtmlDomParser;
 class TorrentIndexerT9 extends TorrentIndexer{
 
 	public function getList($action,$type,$page,$query,$force){
-		$rootUrl = $this->app['torrentCfg']['torrent.t9.host'];
+		$rootUrl = $this->app['torrentCfg']['torrent.t9.apihost'];
 		$page = $page-1;
 		$selector = '.table-responsive tr';
 		switch($action){
@@ -22,7 +22,7 @@ class TorrentIndexerT9 extends TorrentIndexer{
 			case 'search':
 				switch($type){
 					case 'series':
-						$url = $rootUrl.'/search_torrent/series/series/'.str_replace(' ','-',html_entity_decode($query)).($page==0?'.html':'/page-'.($page));
+						$url = $rootUrl.'/search_torrent/series/'.str_replace(' ','-',html_entity_decode($query)).($page==0?'.html':'/page-'.($page));
 					break;
 					case 'movies':
 						$url = $rootUrl.'/search_torrent/films/'.str_replace(' ','-',html_entity_decode($query)).($page==0?'.html':'/page-'.($page));
@@ -37,7 +37,7 @@ class TorrentIndexerT9 extends TorrentIndexer{
 		$aResult = array();
 		$order = 0;
 		$iMaxPage = 0;
-		foreach($dom->find('#pagination a') as $oPage){
+		foreach($dom->find('#pagination-mian a') as $oPage){
 			$iMaxPage=max($iMaxPage,(int)$oPage->plaintext);
 		}
 
@@ -48,11 +48,11 @@ class TorrentIndexerT9 extends TorrentIndexer{
 			}
 			$withDate	= preg_match('!([0-9]{2})\/([0-9]{2})\/([0-9]{4})!',$aItem->find('a',0)->title,$dateMatch);
 			$aUrl		= explode('/',$href);
-			$sImg		= '/_pictures/'.$aUrl[2].'.jpg';
+			$sImg		= $this->app['torrentCfg']['torrent.t9.host'].'/_pictures/'.$aUrl[2].'.jpg';
 			$sTitle		= $aItem->find('a',0)->plaintext;
 			$tags		= array();
 			TorrentIndexer::extractTags($sTitle,$tags);
-			$aP			= array();
+			$aP		= array();
 			$order++;
 			$fileSystem = $this->app['flysystems']['local__DIR__'];
 

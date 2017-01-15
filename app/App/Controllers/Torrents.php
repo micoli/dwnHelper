@@ -35,11 +35,19 @@ class Torrents {
 		$this->app = $app;
 		$this->mark($app, $request, $provider, $hash,'downloaded');
 		$url = base64_decode($hash);
-		$torrent = $this->getProvider($app,$provider)->getTorrent($url);
+		$torrent = $this->getProvider($app,$provider)->getTorrent($app,$type,$url);
 
 		switch($dst){
 			case 'local':
-				$res = file_put_contents($app['torrentCfg']['torrent.local.path'].$type.'/'.$hash.'.torrent',$torrent);
+				$sOutPath = $app['torrentCfg']['torrent.local.path'].$type;
+				if(!file_exists($sOutPath)){
+					mkdir ($sOutPath);
+				}
+				$res = file_put_contents($sOutPath.'/'.$hash.'.torrent',$torrent);
+				//db($sOutPath.'/'.$hash.'.torrent');
+				//$res = file_put_contents($sOutPath.'/uu',"eezez");
+				//db('------');
+				//db(glob($sOutPath.'/*'));
 			break;
 			case 'seed':
 				$conn_id = ftp_connect($app['torrentCfg']['torrent.seed.host']);
