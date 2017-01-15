@@ -19,7 +19,8 @@
 			ng-hide="!((!mother.checkboxModel.new || !card.downloaded) && (!mother.checkboxModel.french || card.french)) "
 			>
 			<a ng-click="mother.showDetail(card)" class="dwnThumbHolder">
-				<img class="dwnThumb img-responsive card-img-top" alt="" ng-src="{{mother.rootUrl}}{{card.img}}">
+				<!--<img class="dwnThumb img-responsive card-img-top" alt="" ng-src="{{mother.rootUrl}}{{card.img}}">-->
+				<img class="dwnThumb img-responsive card-img-top" alt="" ng-src="{{card.img}}">
 				<span class="txtSAEP" ng-if="card.version[0].tag.saep">{{card.version[0].tag.saep.S}}x{{card.version[0].tag.saep.E}}</span>
 			</a>
 			<div class="card-block">
