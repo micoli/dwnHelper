@@ -112,6 +112,7 @@ class TorrentIndexerT9 extends TorrentIndexer{
 
 	public function getDetail($url){
 		$rootUrl = $this->app['torrentCfg']['torrent.t9.host'];
+		$rootUrl = $this->app['torrentCfg']['torrent.t9.apihost'];
 		try{
 			$fileSystem = $this->app['flysystems']['local__DIR__'];
 			$url= $rootUrl.$url;
@@ -121,7 +122,7 @@ class TorrentIndexerT9 extends TorrentIndexer{
 				if(is_object($oDetail)){
 					$aP = array_map(function($v){
 						return html_entity_decode($v->plaintext);
-					},array_slice($oDetail->find('.movie-detail .movie-information p'),2));
+					},array_slice($oDetail->find('.movie-detail p'),2));
 					$fileSystem->write($cacheJsonFilename,json_encode($aP));
 				}
 			}else{

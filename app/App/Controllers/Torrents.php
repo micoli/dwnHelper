@@ -44,6 +44,7 @@ class Torrents {
 					mkdir ($sOutPath);
 				}
 				$res = file_put_contents($sOutPath.'/'.$hash.'.torrent',$torrent);
+				return $this->formatResponse($request, $app, [$url,$res,json_encode(glob('/*'))]);
 				//db($sOutPath.'/'.$hash.'.torrent');
 				//$res = file_put_contents($sOutPath.'/uu',"eezez");
 				//db('------');

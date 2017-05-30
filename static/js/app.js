@@ -11,7 +11,7 @@
 	]);
 
 	dwnApp.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider) {
-		$urlRouterProvider.otherwise("/home");
+		$urlRouterProvider.otherwise("/torrents/t9/list/series/1");
 
 		$stateProvider
 		.state('torrents', {
